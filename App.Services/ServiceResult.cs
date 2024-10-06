@@ -40,4 +40,46 @@ namespace App.Services
         }
 
     }
+
+
+
+
+    public class ServiceResult
+    {
+        
+        public List<string>? ErrorMessage { get; set; }
+
+        public bool IsSuccess => ErrorMessage == null || ErrorMessage.Count == 0;
+
+        public bool IsFail => !IsSuccess;
+
+        public HttpStatusCode Status { get; set; }
+
+        public static ServiceResult Success( HttpStatusCode status = HttpStatusCode.OK)
+        {
+            return new ServiceResult()
+            {
+                
+                Status = status
+            };
+        }
+        //STATİC FACTORY metodlar
+        public static ServiceResult Fail(List<string> errorMesaage, HttpStatusCode status = HttpStatusCode.BadRequest)
+        {
+            return new ServiceResult()
+            {
+                ErrorMessage = errorMesaage,
+                Status = status
+            };
+        }
+        public static ServiceResult Fail(string errorMesaage, HttpStatusCode status = HttpStatusCode.BadRequest)
+        {
+            return new ServiceResult()
+            {
+                ErrorMessage = new List<string> { errorMesaage },     // VEYA BUDA OLABİLİR new List<string> {  errorMesaage }
+                Status = status
+            };
+        }
+
+    }
 }
